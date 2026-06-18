@@ -22,5 +22,18 @@ provider.setCustomParameters({
   hd: "gerchik.team"
 });
 
-export const loginWithGoogle = () => signInWithPopup(auth, provider);
+export const loginWithGoogle = async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error: any) {
+    console.error("Login failed:", error);
+    if (error.code === 'auth/unauthorized-domain') {
+      alert("Ошибка: Домен не авторизован в Firebase. Пожалуйста, добавьте этот домен (vercel.app) в список авторизованных доменов в Firebase Console -> Authentication -> Settings -> Authorized domains.");
+    } else if (error.code === 'auth/popup-closed-by-user') {
+      // User closed the popup, normally ignore or show mild warning
+    } else {
+      alert("Ошибка авторизации: " + (error.message || error.code));
+    }
+  }
+};
 export const logout = () => signOut(auth);
