@@ -32,7 +32,7 @@ export const loginWithGoogle = async () => {
   } catch (error: any) {
     console.error("Login failed:", error);
     if (error.code === 'auth/unauthorized-domain') {
-      alert("Ошибка: Домен не авторизован в Firebase. Пожалуйста, добавьте этот домен (вероятно vercel.app) в список авторизованных доменов в Firebase Console -> Authentication -> Settings -> Authorized domains.");
+      alert(`Ошибка: Домен не авторизован в Firebase. Пожалуйста, добавьте этот домен (${window.location.hostname}) в список авторизованных доменов в Firebase Console -> Authentication -> Settings -> Authorized domains.`);
     } else if (error.code === 'auth/operation-not-allowed') {
       alert("Ошибка: Провайдер Google не включен. Зайдите в Firebase Console -> Authentication -> Sign-in method и включите Google.");
     } else if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
