@@ -9,6 +9,7 @@ export interface HistoryRecord {
 export interface RefundRequest {
   id?: string;
   paymentDate: string; // ISO string
+  requestDate?: string; // ISO string
   email: string;
   amount: number;
   txId: string;
