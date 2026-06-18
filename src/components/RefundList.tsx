@@ -3,7 +3,31 @@ import { collection, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion } fr
 import { db, auth } from '../lib/firebase';
 import { RefundRequest, RefundStatus } from '../types';
 import { cn } from '../lib/utils';
-import { Clock, Search, Edit2, Check, X } from 'lucide-react';
+import { Clock, Search, Edit2, Check, X, Copy } from 'lucide-react';
+
+function CopyText({ value, children }: { value: string, children?: React.ReactNode }) {
+  const [copied, setCopied] = useState(false);
+  
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div 
+      onClick={handleCopy}
+      className="group inline-flex items-start gap-1.5 cursor-pointer rounded -ml-1.5 px-1.5 py-0.5 hover:bg-white/10 active:bg-white/20 transition-all max-w-full"
+      title="Копировать"
+    >
+      <div className="flex-1 min-w-0">{children || <span className="font-medium text-white text-sm">{value}</span>}</div>
+      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white/40 mb-auto mt-0.5">
+        {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+      </div>
+    </div>
+  );
+}
 
 export function RefundList() {
   const [requests, setRequests] = useState<(RefundRequest & { id: string })[]>([]);
@@ -261,31 +285,41 @@ export function RefundList() {
                   <>
                     <div>
                       <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Почта клиента</span>
-                      <p className="font-medium text-white text-sm">{req.email}</p>
+                      <CopyText value={req.email} />
                     </div>
                     <div>
                       <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Сумма возврата</span>
-                      <p className="font-medium text-white tabular-nums text-sm">{req.amount} USDT <span className="bg-white/10 text-white/80 px-2 py-0.5 rounded text-xs font-mono ml-2 border border-white/5">{req.network}</span></p>
+                      <CopyText value={req.amount.toString()}>
+                        <span className="font-medium text-white tabular-nums text-sm">{req.amount} USDT <span className="bg-white/10 text-white/80 px-2 py-0.5 rounded text-xs font-mono ml-2 border border-white/5">{req.network}</span></span>
+                      </CopyText>
                     </div>
                     <div>
                       <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата платежа</span>
-                      <p className="text-white/60 text-sm tabular-nums">
-                        {new Date(req.paymentDate).toLocaleString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                      </p>
+                      <CopyText value={new Date(req.paymentDate).toLocaleString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}>
+                        <p className="text-white/60 text-sm tabular-nums">
+                          {new Date(req.paymentDate).toLocaleString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </CopyText>
                     </div>
                     <div>
                       <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата обращения</span>
-                      <p className="text-white/60 text-sm tabular-nums">
-                        {req.requestDate ? new Date(req.requestDate).toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Не указана"}
-                      </p>
+                      <CopyText value={req.requestDate ? new Date(req.requestDate).toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Не указана"}>
+                        <p className="text-white/60 text-sm tabular-nums">
+                          {req.requestDate ? new Date(req.requestDate).toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Не указана"}
+                        </p>
+                      </CopyText>
                     </div>
                     <div>
                       <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Входящий Хеш/TxID</span>
-                      <p className="text-white/40 text-xs break-all font-mono">{req.txId}</p>
+                      <CopyText value={req.txId}>
+                        <p className="text-white/40 text-xs break-all font-mono">{req.txId}</p>
+                      </CopyText>
                     </div>
                     <div className="md:col-span-2 mt-1">
                       <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Комментарий</span>
-                      <p className="text-white/80 text-sm">{req.comment}</p>
+                      <CopyText value={req.comment}>
+                        <p className="text-white/80 text-sm whitespace-pre-wrap">{req.comment}</p>
+                      </CopyText>
                     </div>
                   </>
                 )}
@@ -293,7 +327,9 @@ export function RefundList() {
                 {req.status === "Вернули" && req.refundTxId && (
                   <div className="md:col-span-2 mt-2 bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-xs font-mono text-emerald-400 break-all shadow-sm">
                     <p className="font-bold mb-1 uppercase tracking-tighter text-emerald-500">TxID Возврата:</p>
-                    <p>{req.refundTxId}</p>
+                    <CopyText value={req.refundTxId}>
+                      <span className="block mt-0.5">{req.refundTxId}</span>
+                    </CopyText>
                   </div>
                 )}
 
