@@ -1,0 +1,63 @@
+{
+  "collections": [
+    {
+      "collection_name": "refund_requests",
+      "fields": [
+        {
+          "name": "paymentDate",
+          "type": "timestamp",
+          "description": "The date and time of the client's payment."
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "The client's email."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The amount in USDT."
+        },
+        {
+          "name": "txId",
+          "type": "string",
+          "description": "The payment hash / TxID."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "description": "The payment network (e.g., ERC-20, TRC-20)."
+        },
+        {
+          "name": "comment",
+          "type": "string",
+          "description": "Comment regarding the case."
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status: 'В работе', 'Вернули', 'Нужна доп инфа'."
+        },
+        {
+          "name": "refundTxId",
+          "type": "string",
+          "description": "The hash/TxID of the refund, if status is 'Вернули'."
+        },
+        {
+          "name": "additionalInfoRequired",
+          "type": "string",
+          "description": "What needs to be added, if status is 'Нужна доп инфа'."
+        },
+        {
+          "name": "createdAt",
+          "type": "timestamp"
+        },
+        {
+          "name": "createdBy",
+          "type": "string",
+          "description": "The email of the employee who created the request."
+        }
+      ]
+    }
+  ]
+}

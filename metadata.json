@@ -1,0 +1,6 @@
+{
+  "name": "Refunds Dashboard",
+  "description": "Real-time refund requests and processing dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
