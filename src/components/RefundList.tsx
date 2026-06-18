@@ -18,11 +18,11 @@ function CopyText({ value, children }: { value: string, children?: React.ReactNo
   return (
     <div 
       onClick={handleCopy}
-      className="group inline-flex items-start gap-1.5 cursor-pointer rounded -ml-1.5 px-1.5 py-0.5 hover:bg-white/10 active:bg-white/20 transition-all max-w-full"
+      className="group inline-flex items-start gap-1.5 cursor-pointer rounded -ml-1.5 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-white/10 active:bg-slate-200 dark:active:bg-white/20 transition-all max-w-full"
       title="Копировать"
     >
-      <div className="flex-1 min-w-0">{children || <span className="font-medium text-white text-sm">{value}</span>}</div>
-      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white/40 mb-auto mt-0.5">
+      <div className="flex-1 min-w-0">{children || <span className="font-medium text-slate-900 dark:text-white text-sm">{value}</span>}</div>
+      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-slate-400 dark:text-white/40 mb-auto mt-0.5">
         {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
       </div>
     </div>
@@ -197,7 +197,7 @@ export function RefundList() {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-white/50">Загрузка данных...</div>;
+    return <div className="p-8 text-center text-slate-500 dark:text-white/50">Загрузка данных...</div>;
   }
 
   const filteredRequests = requests.filter(req => {
@@ -219,19 +219,19 @@ export function RefundList() {
     <div className="space-y-4 relative z-10">
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <Search size={18} className="text-white/40" />
+          <Search size={18} className="text-slate-400 dark:text-white/40" />
         </div>
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Поиск по почте, сумме, сети, TxID, комментарию..."
-          className="w-full pl-11 pr-4 py-3 bg-[#111111] border border-white/5 rounded-2xl text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl transition-all"
+          className="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/5 rounded-2xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl transition-all"
         />
       </div>
 
       {filteredRequests.length === 0 ? (
-        <div className="p-8 border-2 border-dashed border-white/5 rounded-2xl text-center text-white/50 bg-[#111111]">
+        <div className="p-8 border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl text-center text-slate-500 dark:text-white/50 bg-white dark:bg-[#111111]">
           {searchQuery ? "По вашему запросу ничего не найдено." : "Заявок пока нет."}
         </div>
       ) : (
@@ -239,8 +239,8 @@ export function RefundList() {
           <div 
             key={req.id} 
             className={cn(
-              "bg-[#111111] p-5 rounded-2xl border shadow-xl transition-all",
-              req.status === "Нужна доп инфа" ? "border-l-4 border-l-amber-500 border-y-white/5 border-r-white/5 bg-amber-500/5" : "border-white/5 hover:bg-white/5"
+              "bg-white dark:bg-[#111111] p-5 rounded-2xl border shadow-xl transition-all",
+              req.status === "Нужна доп инфа" ? "border-l-4 border-l-amber-500 border-y-white/5 border-r-white/5 bg-amber-500/5" : "border-slate-200 dark:border-white/5 hover:bg-slate-100 dark:hover:bg-white/5"
             )}
           >
             <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
@@ -248,14 +248,14 @@ export function RefundList() {
                 {editingId === req.id ? (
                   <>
                     <div>
-                      <label className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Почта клиента</label>
-                      <input type="email" value={editForm.email || ""} onChange={e => setEditForm({...editForm, email: e.target.value})} className="w-full text-sm bg-white/5 border-white/10 text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none" />
+                      <label className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Почта клиента</label>
+                      <input type="email" value={editForm.email || ""} onChange={e => setEditForm({...editForm, email: e.target.value})} className="w-full text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none" />
                     </div>
                     <div>
-                      <label className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Сумма возврата</label>
+                      <label className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Сумма возврата</label>
                       <div className="flex gap-2">
-                        <input type="number" value={editForm.amount || 0} onChange={e => setEditForm({...editForm, amount: Number(e.target.value)})} className="w-full text-sm bg-white/5 border-white/10 text-white p-1.5 rounded font-mono focus:ring-1 focus:ring-blue-500 outline-none" />
-                        <select value={editForm.network || ""} onChange={e => setEditForm({...editForm, network: e.target.value})} className="w-[100px] text-sm bg-white/5 border-white/10 text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none [&>option]:bg-[#111]">
+                        <input type="number" value={editForm.amount || 0} onChange={e => setEditForm({...editForm, amount: Number(e.target.value)})} className="w-full text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded font-mono focus:ring-1 focus:ring-blue-500 outline-none" />
+                        <select value={editForm.network || ""} onChange={e => setEditForm({...editForm, network: e.target.value})} className="w-[100px] text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none dark:[&>option]:bg-[#111]">
                           <option value="TRC-20">TRC-20</option>
                           <option value="ERC-20">ERC-20</option>
                           <option value="BEP-20">BEP-20</option>
@@ -265,60 +265,60 @@ export function RefundList() {
                       </div>
                     </div>
                     <div>
-                      <label className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата платежа</label>
-                      <input type="datetime-local" value={editForm.paymentDate || ""} onChange={e => setEditForm({...editForm, paymentDate: e.target.value})} className="w-full text-sm bg-white/5 border-white/10 text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
+                      <label className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата платежа</label>
+                      <input type="datetime-local" value={editForm.paymentDate || ""} onChange={e => setEditForm({...editForm, paymentDate: e.target.value})} className="w-full text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
                     </div>
                     <div>
-                      <label className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата обращения</label>
-                      <input type="date" value={editForm.requestDate || ""} onChange={e => setEditForm({...editForm, requestDate: e.target.value})} className="w-full text-sm bg-white/5 border-white/10 text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
+                      <label className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата обращения</label>
+                      <input type="date" value={editForm.requestDate || ""} onChange={e => setEditForm({...editForm, requestDate: e.target.value})} className="w-full text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
                     </div>
                     <div className="md:col-span-2 mt-1">
-                      <label className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Входящий Хеш/TxID</label>
-                      <input type="text" value={editForm.txId || ""} onChange={e => setEditForm({...editForm, txId: e.target.value})} className="w-full text-sm bg-white/5 border-white/10 text-white p-1.5 rounded font-mono focus:ring-1 focus:ring-blue-500 outline-none" />
+                      <label className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Входящий Хеш/TxID</label>
+                      <input type="text" value={editForm.txId || ""} onChange={e => setEditForm({...editForm, txId: e.target.value})} className="w-full text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded font-mono focus:ring-1 focus:ring-blue-500 outline-none" />
                     </div>
                     <div className="md:col-span-2 mt-1">
-                      <label className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Комментарий</label>
-                      <textarea rows={2} value={editForm.comment || ""} onChange={e => setEditForm({...editForm, comment: e.target.value})} className="w-full text-sm bg-white/5 border-white/10 text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none" />
+                      <label className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Комментарий</label>
+                      <textarea rows={2} value={editForm.comment || ""} onChange={e => setEditForm({...editForm, comment: e.target.value})} className="w-full text-sm bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white p-1.5 rounded focus:ring-1 focus:ring-blue-500 outline-none" />
                     </div>
                   </>
                 ) : (
                   <>
                     <div>
-                      <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Почта клиента</span>
+                      <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Почта клиента</span>
                       <CopyText value={req.email} />
                     </div>
                     <div>
-                      <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Сумма возврата</span>
+                      <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Сумма возврата</span>
                       <CopyText value={req.amount.toString()}>
-                        <span className="font-medium text-white tabular-nums text-sm">{req.amount} USDT <span className="bg-white/10 text-white/80 px-2 py-0.5 rounded text-xs font-mono ml-2 border border-white/5">{req.network}</span></span>
+                        <span className="font-medium text-slate-900 dark:text-white tabular-nums text-sm">{req.amount} USDT <span className="bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-white/80 px-2 py-0.5 rounded text-xs font-mono ml-2 border border-slate-200 dark:border-white/5">{req.network}</span></span>
                       </CopyText>
                     </div>
                     <div>
-                      <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата платежа</span>
+                      <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата платежа</span>
                       <CopyText value={new Date(req.paymentDate).toLocaleString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}>
-                        <p className="text-white/60 text-sm tabular-nums">
+                        <p className="text-slate-500 dark:text-white/60 text-sm tabular-nums">
                           {new Date(req.paymentDate).toLocaleString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </CopyText>
                     </div>
                     <div>
-                      <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата обращения</span>
+                      <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Дата обращения</span>
                       <CopyText value={req.requestDate ? new Date(req.requestDate).toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Не указана"}>
-                        <p className="text-white/60 text-sm tabular-nums">
+                        <p className="text-slate-500 dark:text-white/60 text-sm tabular-nums">
                           {req.requestDate ? new Date(req.requestDate).toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Не указана"}
                         </p>
                       </CopyText>
                     </div>
                     <div>
-                      <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Входящий Хеш/TxID</span>
+                      <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Входящий Хеш/TxID</span>
                       <CopyText value={req.txId}>
-                        <p className="text-white/40 text-xs break-all font-mono">{req.txId}</p>
+                        <p className="text-slate-400 dark:text-white/40 text-xs break-all font-mono">{req.txId}</p>
                       </CopyText>
                     </div>
                     <div className="md:col-span-2 mt-1">
-                      <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1 block">Комментарий</span>
+                      <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1 block">Комментарий</span>
                       <CopyText value={req.comment}>
-                        <p className="text-white/80 text-sm whitespace-pre-wrap">{req.comment}</p>
+                        <p className="text-slate-700 dark:text-white/80 text-sm whitespace-pre-wrap">{req.comment}</p>
                       </CopyText>
                     </div>
                   </>
@@ -341,8 +341,8 @@ export function RefundList() {
                 )}
               </div>
 
-              <div className="flex flex-col gap-2 min-w-[200px] border-t lg:border-t-0 lg:border-l border-white/5 pt-4 lg:pt-0 lg:pl-6 lg:ml-2">
-                <span className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-1">Статус</span>
+              <div className="flex flex-col gap-2 min-w-[200px] border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/5 pt-4 lg:pt-0 lg:pl-6 lg:ml-2">
+                <span className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-1">Статус</span>
                 <select 
                   value={req.status}
                   onChange={(e) => handleStatusChangeClick(req.id, e.target.value as RefundStatus)}
@@ -357,7 +357,7 @@ export function RefundList() {
                   <option value="Вернули">Вернули</option>
                   {/* <option value="Нужна доп инфа">Нужна доп инфа</option> */}
                 </select>
-                <div className="mt-2 text-[10px] text-white/40 text-center uppercase tracking-wider font-semibold">
+                <div className="mt-2 text-[10px] text-slate-400 dark:text-white/40 text-center uppercase tracking-wider font-semibold">
                   Создал: <br/><span className="lowercase">{req.createdBy}</span>
                 </div>
                 
@@ -374,12 +374,12 @@ export function RefundList() {
                     <button onClick={() => saveEdit(req.id, req)} className="flex items-center gap-1 text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-1 rounded hover:bg-emerald-500/20">
                       <Check size={14} /> Сохр.
                     </button>
-                    <button onClick={cancelEdit} className="flex items-center gap-1 text-xs text-white/50 font-bold bg-white/5 px-2 py-1 rounded hover:bg-white/10">
+                    <button onClick={cancelEdit} className="flex items-center gap-1 text-xs text-slate-500 dark:text-white/50 font-bold bg-slate-100 dark:bg-white/5 px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-white/10">
                       <X size={14} /> Отм.
                     </button>
                   </div>
                 ) : (
-                  <button onClick={() => startEdit(req)} className="mt-2 flex items-center justify-center gap-1.5 text-xs text-white/50 font-medium hover:text-white/80 transition-colors">
+                  <button onClick={() => startEdit(req)} className="mt-2 flex items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-white/50 font-medium hover:text-slate-700 dark:hover:text-white/80 transition-colors">
                     <Edit2 size={14} /> Редактировать
                   </button>
                 )}
@@ -387,23 +387,23 @@ export function RefundList() {
             </div>
 
             {expandedHistory === req.id && req.history && req.history.length > 0 && (
-              <div className="mt-6 pt-4 border-t border-white/5 animate-in slide-in-from-top-2 duration-200">
-                <h4 className="text-[11px] text-white/40 uppercase font-bold tracking-wider mb-4">История платежа</h4>
+              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-white/5 animate-in slide-in-from-top-2 duration-200">
+                <h4 className="text-[11px] text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider mb-4">История платежа</h4>
                 <div className="space-y-4">
                   {req.history.slice().reverse().map((entry, idx) => (
                     <div key={idx} className="flex gap-4 relative">
                       {idx !== req.history!.length - 1 && (
-                        <div className="absolute left-2.5 top-6 bottom-[-16px] w-[2px] bg-white/10" />
+                        <div className="absolute left-2.5 top-6 bottom-[-16px] w-[2px] bg-slate-100 dark:bg-white/10" />
                       )}
                       <div className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20 flex-shrink-0 z-10">
                         <div className="w-2 h-2 rounded-full bg-blue-500" />
                       </div>
                       <div className="flex-1 pb-1">
                         <div className="flex justify-between items-baseline mb-0.5">
-                          <span className="text-sm font-medium text-white/90">{entry.author}</span>
-                          <span className="text-xs text-white/40 tabular-nums">{new Date(entry.timestamp).toLocaleString('ru-RU')}</span>
+                          <span className="text-sm font-medium text-slate-800 dark:text-white/90">{entry.author}</span>
+                          <span className="text-xs text-slate-400 dark:text-white/40 tabular-nums">{new Date(entry.timestamp).toLocaleString('ru-RU')}</span>
                         </div>
-                        <p className="text-sm text-white/60">{entry.description}</p>
+                        <p className="text-sm text-slate-500 dark:text-white/60">{entry.description}</p>
                       </div>
                     </div>
                   ))}
@@ -416,12 +416,12 @@ export function RefundList() {
 
       {/* Dialog overlay for additional inputs */}
       {activeDialog && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-          <div className="bg-[#111111] border border-white/10 rounded-2xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-lg font-semibold text-white mb-2">
+        <div className="fixed inset-0 bg-slate-900/50 dark:bg-black/70 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
               {activeDialog.type === 'refund' ? "Укажите данные возврата" : "Запрос дополнительной информации"}
             </h3>
-            <p className="text-sm text-white/50 mb-4">
+            <p className="text-sm text-slate-500 dark:text-white/50 mb-4">
               {activeDialog.type === 'refund' 
                 ? "Пожалуйста, вставьте Хеш/TxID исходящей транзакции (возврата) или ссылку на нее."
                 : "Опишите, что именно нужно добавить или исправить для обработки этой заявки."}
@@ -436,7 +436,7 @@ export function RefundList() {
                   value={dialogInput}
                   onChange={(e) => setDialogInput(e.target.value)}
                   placeholder="Хеш / TxID возврата"
-                  className="w-full bg-white/5 border border-white/10 text-white rounded-xl p-3 mb-4 focus:ring-1 focus:ring-blue-500 focus:outline-none font-mono text-sm placeholder:text-white/20 transition-all"
+                  className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-xl p-3 mb-4 focus:ring-1 focus:ring-blue-500 focus:outline-none font-mono text-sm placeholder:text-slate-400 dark:placeholder:text-white/20 transition-all"
                 />
               ) : (
                 <textarea 
@@ -446,7 +446,7 @@ export function RefundList() {
                   value={dialogInput}
                   onChange={(e) => setDialogInput(e.target.value)}
                   placeholder="Комментарий для сотрудника..."
-                  className="w-full bg-white/5 border border-white/10 text-white rounded-xl p-3 mb-4 focus:ring-1 focus:ring-blue-500 focus:outline-none text-sm placeholder:text-white/20 transition-all"
+                  className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-xl p-3 mb-4 focus:ring-1 focus:ring-blue-500 focus:outline-none text-sm placeholder:text-slate-400 dark:placeholder:text-white/20 transition-all"
                 />
               )}
               
@@ -454,13 +454,13 @@ export function RefundList() {
                 <button 
                   type="button" 
                   onClick={() => setActiveDialog(null)}
-                  className="px-4 py-2.5 text-sm font-medium text-white/50 hover:bg-white/5 hover:text-white rounded-xl transition-all"
+                  className="px-4 py-2.5 text-sm font-medium text-slate-500 dark:text-white/50 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white rounded-xl transition-all"
                 >
                   Отмена
                 </button>
                 <button 
                   type="submit"
-                  className="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-xl transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
+                  className="px-5 py-2.5 text-sm font-medium text-slate-900 dark:text-white bg-blue-600 hover:bg-blue-500 rounded-xl transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
                 >
                   Сохранить
                 </button>
